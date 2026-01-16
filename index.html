@@ -1,13 +1,50 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>computer-galaxy</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Computer History Galaxy – Evolución 3D de la Computación</title>
+    
+    <!-- Google Fonts: Orbitron (cyber) + Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN (opcional pero recomendado para prototipo rápido) -->
+    <!-- Si usas Tailwind full, mejor instálalo con npm -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Canvas principal para Three.js -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Overlay HUD (título y controles) -->
+    <div class="overlay">
+        <h1 class="title">Computer History Galaxy</h1>
+        <p class="subtitle">Explora la evolución de la computación desde 1940 hasta 2026</p>
+
+        <!-- Controles de ejemplo (filtros, zoom, etc.) -->
+        <div class="controls">
+            <button class="btn" id="filter-all">Todos</button>
+            <button class="btn" id="filter-hardware">Hardware</button>
+            <button class="btn" id="filter-ia">IA</button>
+            <button class="btn" id="filter-software">Software</button>
+            <button class="btn" id="reset-camera">Volver al centro</button>
+        </div>
+    </div>
+
+    <!-- Panel de información flotante (se muestra al clickear un hito) -->
+    <div id="info-panel" class="info-panel">
+        <h2 id="info-title">Selecciona un hito</h2>
+        <p id="info-description">Haz clic en cualquier esfera para ver detalles históricos.</p>
+        <img id="info-image" src="" alt="Imagen histórica" style="display:none;">
+        <div id="info-video" style="display:none;"></div>
+        <a id="info-link" href="#" target="_blank" style="display:none;">Leer más →</a>
+        <button class="btn mt-4" id="close-panel">Cerrar</button>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/main.js"></script>
+</body>
 </html>
