@@ -1,0 +1,141 @@
+[
+  {
+    "id": 1,
+    "title": "ENIAC – Primera computadora electrónica programable",
+    "year": 1945,
+    "position": [0, 0, -80],
+    "description": "La primera computadora digital electrónica de propósito general. Pesaba 30 toneladas, ocupaba una habitación entera y se usaba para cálculos balísticos.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Eniac.jpg",
+    "video": "dQw4w9WgXcQ",
+    "category": "Hardware"
+  },
+  {
+    "id": 2,
+    "title": "Alan Turing y la Máquina de Turing",
+    "year": 1936,
+    "position": [-20, 30, -60],
+    "description": "Concepto teórico fundamental: una máquina abstracta que puede simular cualquier algoritmo. Base de toda la computación moderna.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Alan_Turing.jpg",
+    "category": "Teoría"
+  },
+  {
+    "id": 3,
+    "title": "UNIVAC I – Primera computadora comercial",
+    "year": 1951,
+    "position": [30, -20, -70],
+    "description": "Primera computadora vendida a empresas y gobiernos. Predijo la victoria de Eisenhower en 1952.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Univac_1.jpg",
+    "category": "Hardware"
+  },
+  {
+    "id": 4,
+    "title": "Transistor – Bell Labs",
+    "year": 1947,
+    "position": [40, 40, -50],
+    "description": "Reemplazó las válvulas de vacío. Hizo posible computadoras más pequeñas, rápidas y baratas.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/40/Transistor_Bell_Labs.jpg",
+    "category": "Hardware"
+  },
+  {
+    "id": 5,
+    "title": "IBM 701 – Primera computadora científica comercial",
+    "year": 1952,
+    "position": [-50, 20, -40],
+    "description": "Primera computadora científica de IBM. Usada por la Fuerza Aérea y laboratorios.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3f/IBM_701.jpg",
+    "category": "Hardware"
+  },
+  {
+    "id": 6,
+    "title": "Altair 8800 – Primera microcomputadora personal",
+    "year": 1975,
+    "position": [60, -30, -30],
+    "description": "La computadora que inspiró a Bill Gates y Paul Allen a fundar Microsoft. Apareció en la portada de Popular Electronics.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Altair_8800.jpg",
+    "video": "LGiV_9Yb3e0",
+    "category": "Hardware"
+  },
+  {
+    "id": 7,
+    "title": "Apple II – Primera computadora personal exitosa",
+    "year": 1977,
+    "position": [-70, 50, -20],
+    "description": "Con gráficos en color y sonido, popularizó las computadoras en hogares y escuelas.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Apple_II.jpg",
+    "category": "Hardware"
+  },
+  {
+    "id": 8,
+    "title": "IBM PC – Estándar de la industria",
+    "year": 1981,
+    "position": [80, -40, -10],
+    "description": "Definición del estándar PC compatible. Clonable, lo que llevó a la dominancia de Microsoft y Intel.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d3/IBM_PC_5150.jpg",
+    "category": "Hardware"
+  },
+  {
+    "id": 9,
+    "title": "World Wide Web – Tim Berners-Lee",
+    "year": 1989,
+    "position": [0, 0, 0],
+    "description": "Creación del WWW en CERN. Protocolo HTTP + HTML + URLs. Revolucionó el acceso a la información.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Tim_Berners-Lee.jpg",
+    "video": "OM6XIICm_qo",
+    "category": "Redes"
+  },
+  {
+    "id": 10,
+    "title": "Linux – Linus Torvalds",
+    "year": 1991,
+    "position": [-90, 60, 20],
+    "description": "Kernel open source que impulsó servidores, supercomputadoras y Android.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg",
+    "category": "Software"
+  },
+  {
+    "id": 11,
+    "title": "Deep Blue vence a Kasparov",
+    "year": 1997,
+    "position": [100, -50, 30],
+    "description": "IBM Deep Blue derrota al campeón mundial de ajedrez Garry Kasparov. Primer triunfo de IA en juego complejo.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Deep_Blue.jpg",
+    "category": "IA"
+  },
+  {
+    "id": 12,
+    "title": "iPhone – Revolución móvil",
+    "year": 2007,
+    "position": [-100, 70, 40],
+    "description": "Primer smartphone moderno con pantalla táctil completa y App Store.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3e/IPhone_3G.jpg",
+    "video": "VQKSo9ANt1w",
+    "category": "Hardware"
+  },
+  {
+    "id": 13,
+    "title": "AlphaGo vence a Lee Sedol",
+    "year": 2016,
+    "position": [110, -60, 50],
+    "description": "DeepMind AlphaGo derrota al campeón mundial de Go. Hito en aprendizaje profundo y IA.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/AlphaGo_vs_Lee_Sedol.jpg",
+    "category": "IA"
+  },
+  {
+    "id": 14,
+    "title": "ChatGPT – IA conversacional masiva",
+    "year": 2022,
+    "position": [-110, 80, 60],
+    "description": "OpenAI lanza ChatGPT basado en GPT-3.5. Popularizó la IA generativa en el público general.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+    "category": "IA"
+  },
+  {
+    "id": 15,
+    "title": "Grok-3 y la IA multimodal (2025-2026)",
+    "year": 2026,
+    "position": [120, -70, 70],
+    "description": "xAI lanza Grok-3 con capacidades multimodales avanzadas. Marca el inicio de la IA general accesible.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Grok_logo.svg",
+    "category": "IA"
+  }
+]
