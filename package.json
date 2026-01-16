@@ -12,6 +12,8 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "three": "^0.182.0"
+    "@react-three/postprocessing": "^3.0.4",
+    "three": "^0.182.0",
+    "three-stdlib": "^2.36.1"
   }
 }
