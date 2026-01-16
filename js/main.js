@@ -1,117 +1,104 @@
+// js/main.js - Versión completa, sin módulos extras por ahora
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// Elementos del DOM
+// Logs para depurar
+console.log('main.js cargado correctamente');
+
+// Elementos DOM
 const canvas = document.getElementById('three-canvas');
+if (!canvas) console.error('Canvas no encontrado en el DOM');
+
 const infoPanel = document.getElementById('info-panel');
 const infoTitle = document.getElementById('info-title');
 const infoDesc = document.getElementById('info-description');
 const infoImage = document.getElementById('info-image');
 const closePanel = document.getElementById('close-panel');
 
-// Escena básica
+// Escena
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000022); // Azul oscuro espacial
+scene.background = new THREE.Color(0x000022);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 20, 80);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+camera.position.set(0, 30, 120);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
-// Controles de órbita (volar con mouse)
+// Luces
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+const pointLight = new THREE.PointLight(0xffffff, 1.5);
+pointLight.position.set(100, 100, 100);
+scene.add(pointLight);
+
+// Controles
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.minDistance = 10;
-controls.maxDistance = 200;
 
-// Luz básica
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambientLight);
+// Grupo de hitos
+const hitosGroup = new THREE.Group();
+scene.add(hitosGroup);
 
-const pointLight = new THREE.PointLight(0xffffff, 1);
-pointLight.position.set(50, 50, 50);
-scene.add(pointLight);
-
-// Cargar el JSON y crear esferas
-let hitos = [];
-
-fetch('/events-computing.json')
-  .then(response => response.json())
-  .then(data => {
-    hitos = data;
-
-    hitos.forEach(hito => {
-      // Esfera para cada hito
-      const geometry = new THREE.SphereGeometry(3, 32, 32); // Radio 3
-      const material = new THREE.MeshStandardMaterial({
-        color: 0x00ffff,
-        emissive: 0x004444,
-        metalness: 0.5,
-        roughness: 0.3
-      });
-      const sphere = new THREE.Mesh(geometry, material);
-      
-      // Posición desde el JSON
-      sphere.position.set(...hito.position);
-      sphere.userData = hito; // Guardamos los datos del hito aquí
-      
-      scene.add(sphere);
-
-      // Texto flotante simple (opcional, usa sprite o CSS3D para mejor efecto)
-      // Por ahora lo dejamos en el panel
-    });
-  })
-  .catch(err => console.error('Error cargando JSON:', err));
-
-// Raycaster para detectar clicks
+// Raycaster
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-// Click en la pantalla
-window.addEventListener('click', (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Cargar JSON
+fetch('/events-computing.json')
+  .then(response => {
+    console.log('Respuesta fetch:', response.status);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  })
+  .then(hitos => {
+    console.log('JSON cargado con éxito. Hitos:', hitos.length);
+
+    hitos.forEach((hito, index) => {
+      const geo = new THREE.SphereGeometry(4, 32, 32);
+      const mat = new THREE.MeshStandardMaterial({ color: 0x00ffff });
+      const sphere = new THREE.Mesh(geo, mat);
+      sphere.position.set(...hito.position);
+      sphere.userData = hito;
+      hitosGroup.add(sphere);
+    });
+  })
+  .catch(err => {
+    console.error('Error al cargar JSON:', err);
+  });
+
+// Click
+window.addEventListener('click', e => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-
-  const intersects = raycaster.intersectObjects(scene.children);
+  const intersects = raycaster.intersectObjects(hitosGroup.children);
 
   if (intersects.length > 0) {
-    const object = intersects[0].object;
-    if (object.userData.title) { // Es un hito
-      const hito = object.userData;
-      
-      infoTitle.textContent = hito.title + ' (' + hito.year + ')';
-      infoDesc.textContent = hito.description;
-      if (hito.image) {
-        infoImage.src = hito.image;
-        infoImage.style.display = 'block';
-      } else {
-        infoImage.style.display = 'none';
-      }
-      
-      infoPanel.classList.add('visible');
-    }
+    const hito = intersects[0].object.userData;
+    infoTitle.textContent = hito.title;
+    infoDesc.textContent = hito.description;
+    infoImage.src = hito.image || '';
+    infoImage.style.display = hito.image ? 'block' : 'none';
+    infoPanel.classList.add('visible');
   }
 });
 
-// Cerrar panel
-closePanel.addEventListener('click', () => {
-  infoPanel.classList.remove('visible');
-});
+closePanel.addEventListener('click', () => infoPanel.classList.remove('visible'));
 
-// Animación loop
+// Animación
 function animate() {
   requestAnimationFrame(animate);
+  hitosGroup.children.forEach(s => s.rotation.y += 0.003);
   controls.update();
   renderer.render(scene, camera);
 }
 animate();
 
-// Responsive
+// Resize
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
