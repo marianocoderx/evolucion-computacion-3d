@@ -3,33 +3,59 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Computer History Galaxy – Evolución 3D</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <title>Computer History Galaxy – Evolución de la Computación</title>
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
 </head>
 <body>
-    <!-- Canvas – importante: no lo ocultes con CSS -->
-    <canvas id="three-canvas"></canvas>
-
-    <!-- Overlay -->
+    <!-- Overlay con título -->
     <div class="overlay">
         <h1 class="title">Computer History Galaxy</h1>
         <p class="subtitle">Explora la evolución de la computación</p>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Cargando galaxia de hitos históricos...</p>
+        </div>
     </div>
 
-    <!-- Panel de info -->
+    <!-- Línea de tiempo -->
+    <div class="timeline-container">
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <!-- Los hitos se generan dinámicamente aquí -->
+        </div>
+    </div>
+
+    <!-- Panel de información -->
     <div id="info-panel" class="info-panel">
-        <h2 id="info-title">Selecciona un hito</h2>
-        <p id="info-description">Haz clic en una esfera</p>
-        <img id="info-image" src="" alt="Imagen" style="display:none; max-width:100%; border-radius:8px;">
-        <button class="btn mt-4" id="close-panel">Cerrar</button>
+        <div class="panel-header">
+            <h2 id="info-title">Selecciona un hito</h2>
+            <button class="btn close-btn" id="close-panel">×</button>
+        </div>
+        <div class="panel-content">
+            <div class="panel-left">
+                <img id="info-image" src="" alt="Imagen" class="panel-image">
+                <div class="category" id="info-category">Categoría</div>
+            </div>
+            <div class="panel-right">
+                <p id="info-description">Haz clic en un hito para ver la información</p>
+                <p><strong>Año:</strong> <span id="info-year">-</span></p>
+                <div id="info-video"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- Script -->
-    <script type="module" src="/js/main.js"></script>
+    <!-- Overlay de fondo -->
+    <div class="overlay-background" id="overlay"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
