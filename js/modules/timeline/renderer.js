@@ -1,27 +1,69 @@
-import { DOMUtils } from '../../utils/dom.js';
-
 export class TimelineRenderer {
-    constructor(container) {
-        this.container = container;
-        this.elements = new Map();
-    }
+    // ... código anterior ...
     
     render(milestones) {
         this.clear();
         
-        const earliestYear = Math.min(...milestones.map(m => m.year));
-        const latestYear = Math.max(...milestones.map(m => m.year));
-        const yearRange = latestYear - earliestYear || 100;
+        const containerHeight = this.container.clientHeight;
+        const minSpacing = 100; // Espacio mínimo entre cards
+        
+        // Calcular posiciones con espaciado dinámico
+        const positions = this.calculatePositions(milestones, containerHeight, minSpacing);
         
         milestones.forEach((milestone, index) => {
-            const element = this.createMilestoneElement(milestone, index, earliestYear, yearRange);
+            const position = positions[index];
+            const element = this.createMilestoneElement(milestone, index, position);
             this.container.appendChild(element);
             this.elements.set(milestone.id, element);
+            
+            // Añadir clase visible después de un delay para animación
+            setTimeout(() => {
+                element.classList.add('visible');
+            }, index * 50);
         });
     }
     
-    createMilestoneElement(milestone, index, earliestYear, yearRange) {
-        const position = ((milestone.year - earliestYear) / yearRange) * 90;
+    calculatePositions(milestones, containerHeight, minSpacing) {
+        if (milestones.length === 0) return [];
+        
+        // Encontrar años mínimo y máximo
+        const years = milestones.map(m => m.year);
+        const minYear = Math.min(...years);
+        const maxYear = Math.max(...years);
+        const yearRange = maxYear - minYear || 100;
+        
+        // Calcular posiciones iniciales basadas en años
+        const initialPositions = milestones.map(milestone => 
+            ((milestone.year - minYear) / yearRange) * 90
+        );
+        
+        // Ajustar posiciones para evitar solapamiento
+        return this.adjustPositions(initialPositions, containerHeight, minSpacing);
+    }
+    
+    adjustPositions(positions, containerHeight, minSpacing) {
+        const adjusted = [...positions];
+        const spacing = minSpacing / containerHeight * 100; // Convertir a porcentaje
+        
+        for (let i = 1; i < adjusted.length; i++) {
+            if (adjusted[i] - adjusted[i - 1] < spacing) {
+                adjusted[i] = adjusted[i - 1] + spacing;
+            }
+        }
+        
+        // Asegurar que no se salga del contenedor
+        const maxPosition = Math.max(...adjusted);
+        if (maxPosition > 90) {
+            const scale = 90 / maxPosition;
+            adjusted.forEach((pos, i) => {
+                adjusted[i] = pos * scale;
+            });
+        }
+        
+        return adjusted;
+    }
+    
+    createMilestoneElement(milestone, index, position) {
         const sideClass = index % 2 === 0 ? 'left' : 'right';
         
         const element = DOMUtils.createElement('div', `milestone ${sideClass}`, {
@@ -36,47 +78,5 @@ export class TimelineRenderer {
         return element;
     }
     
-    createMilestoneHTML(milestone) {
-        const truncatedTitle = this.truncateText(milestone.title, 45);
-        const truncatedDesc = this.truncateText(milestone.description, 70);
-        
-        return `
-            <div class="dot"></div>
-            <div class="year">${milestone.year}</div>
-            <h3>${truncatedTitle}</h3>
-            <p>${truncatedDesc}</p>
-            <div class="category">${milestone.category}</div>
-        `;
-    }
-    
-    truncateText(text, maxLength) {
-        return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
-    }
-    
-    highlightMilestone(id) {
-        // Remover highlight anterior
-        this.container.querySelectorAll('.milestone.selected').forEach(el => {
-            el.classList.remove('selected');
-        });
-        
-        // Aplicar highlight
-        const element = this.elements.get(id);
-        if (element) {
-            element.classList.add('selected');
-            element.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center',
-                inline: 'nearest' 
-            });
-        }
-    }
-    
-    getElement(id) {
-        return this.elements.get(id);
-    }
-    
-    clear() {
-        this.container.innerHTML = '<div class="timeline-line"></div>';
-        this.elements.clear();
-    }
+    // ... resto del código ...
 }
