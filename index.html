@@ -3,50 +3,161 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Computer History Galaxy</title>
+    <title>Computer History Galaxy – Evolución de la Computación</title>
     
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
     <!-- CSS Principal -->
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- CSS para cada módulo -->
+    <!-- CSS por Módulo -->
     <link rel="stylesheet" href="css/timeline.css">
     <link rel="stylesheet" href="css/panel.css">
     <link rel="stylesheet" href="css/effects.css">
     <link rel="stylesheet" href="css/modals-controls.css">
     
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    
+    <!-- Meta tags SEO y Social -->
+    <meta name="description" content="Explora la evolución de la computación a través de hitos históricos interactivos en una línea de tiempo visual">
+    <meta name="keywords" content="computación, historia, tecnología, timeline, evolución, hitos tecnológicos">
+    <meta name="author" content="Computer History Galaxy">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Computer History Galaxy">
+    <meta property="og:description" content="Explora la evolución de la computación a través de hitos históricos interactivos">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="">
+    <meta property="twitter:title" content="Computer History Galaxy">
+    <meta property="twitter:description" content="Explora la evolución de la computación a través de hitos históricos interactivos">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    
+    <!-- Preload recursos críticos -->
+    <link rel="preload" href="js/main.js" as="script">
+    <link rel="preload" href="css/style.css" as="style">
+    
+    <!-- Estilos críticos inline (opcional para performance) -->
+    <style>
+        /* Solo lo absolutamente necesario para el primer render */
+        .critical-loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            z-index: 9999;
+        }
+        
+        /* Ocultar hasta que cargue JavaScript */
+        .js-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
 </head>
 <body>
-    <!-- Overlay -->
-    <div class="overlay">
-        <h1 class="title">Computer History Galaxy</h1>
-        <p class="subtitle">Explora la evolución de la computación</p>
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Cargando galaxia...</p>
+    <!-- Loading inicial crítico -->
+    <div id="critical-loading" class="critical-loading">
+        <div class="spinner"></div>
+        <p>Inicializando galaxia...</p>
+    </div>
+    
+    <!-- Contenido principal (oculto inicialmente) -->
+    <div class="app-content js-hidden">
+        <!-- Overlay con título -->
+        <div class="overlay">
+            <h1 class="title">Computer History Galaxy</h1>
+            <p class="subtitle">Explora la evolución de la computación</p>
+            
+            <!-- Loading dinámico (controlado por JS) -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Cargando galaxia de hitos históricos...</p>
+            </div>
         </div>
-    </div>
 
-    <!-- Timeline -->
-    <div class="timeline-container">
-        <div class="timeline" id="timeline">
-            <div class="timeline-line"></div>
+        <!-- Contenedor de la línea de tiempo -->
+        <div class="timeline-container">
+            <div class="timeline" id="timeline">
+                <div class="timeline-line"></div>
+                <!-- Los hitos se generan dinámicamente aquí -->
+            </div>
         </div>
+
+        <!-- Panel de información -->
+        <div id="info-panel" class="info-panel">
+            <!-- El contenido se genera dinámicamente -->
+        </div>
+
+        <!-- Overlay de fondo para modal/panel -->
+        <div class="overlay-background" id="overlay"></div>
+        
+        <!-- Elementos de UI generados dinámicamente -->
+        <!-- Los botones de control y modales se crearán con JavaScript -->
     </div>
-
-    <!-- Panel -->
-    <div id="info-panel" class="info-panel">
-        <!-- El contenido se genera dinámicamente -->
-    </div>
-
-    <!-- Overlay de fondo -->
-    <div class="overlay-background" id="overlay"></div>
-
-    <!-- Scripts -->
+    
+    <!-- Scripts - Orden importante -->
+    
+    <!-- Configuración y utilidades primero -->
+    <script type="module">
+        // Inicializar estado crítico
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔄 DOM cargado, inicializando...');
+            
+            // Ocultar loading crítico cuando cargue todo
+            window.addEventListener('load', () => {
+                document.getElementById('critical-loading').style.display = 'none';
+                document.querySelector('.app-content').classList.remove('js-hidden');
+            });
+            
+            // Fallback en caso de error
+            setTimeout(() => {
+                document.getElementById('critical-loading').style.display = 'none';
+                document.querySelector('.app-content').classList.remove('js-hidden');
+            }, 3000);
+        });
+    </script>
+    
+    <!-- Aplicación principal (módulo ES6) -->
     <script type="module" src="js/main.js"></script>
+    
+    <!-- Fallback para navegadores sin soporte modules -->
+    <script nomodule>
+        document.getElementById('critical-loading').innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h2 style="color: #ff5555;">⚠️ Navegador no compatible</h2>
+                <p>Tu navegador no soporta módulos ES6.</p>
+                <p>Por favor, usa una versión moderna de:</p>
+                <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                    <li>• Chrome 61+</li>
+                    <li>• Firefox 60+</li>
+                    <li>• Safari 10.1+</li>
+                    <li>• Edge 16+</li>
+                </ul>
+                <button onclick="location.reload()" style="
+                    background: #00ffff;
+                    color: #000;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 20px;
+                ">
+                    Reintentar
+                </button>
+            </div>
+        `;
+    </script>
+    
 </body>
 </html>
