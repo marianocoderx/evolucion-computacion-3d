@@ -1,5 +1,5 @@
 export class TimelineApp {
-    constructor(milestones, config = {}) {
+    constructor(milestones, config) {
         this.milestones = milestones;
         this.config = config;
         this.currentMilestone = null;
@@ -10,20 +10,20 @@ export class TimelineApp {
     
     init() {
         if (!this.timelineElement) {
-            console.error('No se encontró .timeline');
+            console.error('No se encontró el elemento .timeline');
             return;
         }
         
         this.createMilestones();
+        this.setupEventListeners();
         this.setupKeyboardNavigation();
-        this.setupResizeListener();
         
         console.log('📈 Timeline creado con', this.milestones.length, 'hitos');
     }
     
     createMilestones() {
         // Limpiar hitos existentes
-        const existing = this.timelineElement.querySelectorAll('.milestone:not(.template)');
+        const existing = this.timelineElement.querySelectorAll('.milestone');
         existing.forEach(el => el.remove());
         
         const earliestYear = Math.min(...this.milestones.map(m => m.year));
@@ -37,43 +37,42 @@ export class TimelineApp {
     }
     
     createMilestoneElement(milestone, index, earliestYear, yearRange) {
+        const position = ((milestone.year - earliestYear) / yearRange) * 90;
+        const sideClass = index % 2 === 0 ? 'left' : 'right';
+        
         const div = document.createElement('div');
-        div.className = `milestone ${index % 2 === 0 ? 'left' : 'right'}`;
+        div.className = `milestone ${sideClass}`;
         div.dataset.id = milestone.id;
         div.dataset.year = milestone.year;
         div.dataset.category = milestone.category;
         
-        // Calcular posición vertical
-        const position = yearRange > 0 
-            ? ((milestone.year - earliestYear) / yearRange) * 90 
-            : (index / this.milestones.length) * 90;
-        
         div.style.top = `${position}%`;
+        div.innerHTML = this.getMilestoneHTML(milestone);
         
-        // Contenido
-        div.innerHTML = `
-            <div class="dot" style="background: ${this.getCategoryColor(milestone.category)}"></div>
-            <div class="year">${milestone.year}</div>
-            <h3>${this.truncate(milestone.title, 45)}</h3>
-            <p>${this.truncate(milestone.description, 70)}</p>
-            <div class="category">${milestone.category}</div>
-        `;
-        
-        // Eventos
         div.addEventListener('click', (e) => {
             e.stopPropagation();
             this.selectMilestone(milestone, div);
         });
         
-        div.addEventListener('mouseenter', () => {
-            div.classList.add('hover');
-        });
-        
-        div.addEventListener('mouseleave', () => {
-            div.classList.remove('hover');
-        });
-        
         return div;
+    }
+    
+    getMilestoneHTML(milestone) {
+        const truncatedTitle = milestone.title.length > 45 
+            ? milestone.title.substring(0, 42) + '...' 
+            : milestone.title;
+        
+        const truncatedDesc = milestone.description.length > 70 
+            ? milestone.description.substring(0, 67) + '...' 
+            : milestone.description;
+        
+        return `
+            <div class="dot"></div>
+            <div class="year">${milestone.year}</div>
+            <h3>${truncatedTitle}</h3>
+            <p>${truncatedDesc}</p>
+            <div class="category">${milestone.category}</div>
+        `;
     }
     
     selectMilestone(milestone, element) {
@@ -99,6 +98,19 @@ export class TimelineApp {
                 inline: 'nearest' 
             });
         }, 300);
+    }
+    
+    setupEventListeners() {
+        // Efectos hover
+        this.timelineElement.addEventListener('mouseover', (e) => {
+            const milestone = e.target.closest('.milestone');
+            if (milestone) milestone.classList.add('hover');
+        });
+        
+        this.timelineElement.addEventListener('mouseout', (e) => {
+            const milestone = e.target.closest('.milestone');
+            if (milestone) milestone.classList.remove('hover');
+        });
     }
     
     setupKeyboardNavigation() {
@@ -134,45 +146,5 @@ export class TimelineApp {
                 this.selectMilestone(milestone, element);
             }
         });
-    }
-    
-    setupResizeListener() {
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                this.createMilestones();
-            }, 250);
-        });
-    }
-    
-    getCategoryColor(category) {
-        const colors = {
-            'Hardware': '#00ffff',
-            'Software': '#00ff88',
-            'IA': '#ff00ff',
-            'Redes': '#ffaa00',
-            'Web': '#0088ff',
-            'Teoría': '#ff8800',
-            'General': '#8888ff'
-        };
-        return colors[category] || '#ffffff';
-    }
-    
-    truncate(text, maxLength) {
-        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-    }
-    
-    // Métodos públicos
-    getMilestoneById(id) {
-        return this.milestones.find(m => m.id == id);
-    }
-    
-    getAllCategories() {
-        return [...new Set(this.milestones.map(m => m.category))];
-    }
-    
-    filterByCategory(category) {
-        return this.milestones.filter(m => m.category === category);
     }
 }

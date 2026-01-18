@@ -1,0 +1,96 @@
+/* Efectos visuales */
+.overlay-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.overlay-background.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estrellas */
+.star {
+    position: fixed;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+/* Partículas */
+.particle {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: #00ffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(1px);
+}
+
+.click-particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #00ffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+/* Animaciones para panel */
+@keyframes panelSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes panelSlideOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Animaciones flotantes */
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(20px, -30px) rotate(90deg);
+    }
+    50% {
+        transform: translate(-15px, 20px) rotate(180deg);
+    }
+    75% {
+        transform: translate(10px, -10px) rotate(270deg);
+    }
+}

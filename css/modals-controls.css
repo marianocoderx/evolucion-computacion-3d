@@ -1,0 +1,169 @@
+/* Estilos para controles y modales */
+.control-btn {
+    position: fixed;
+    background: rgba(0, 255, 255, 0.2);
+    border: 1px solid #00ffff;
+    color: #00ffff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+    z-index: 100;
+}
+
+.control-btn:hover {
+    background: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 15px #00ffff;
+}
+
+.debug-info {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff00;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 1000;
+}
+
+/* Modal de lista de hitos */
+.milestones-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.milestones-modal .modal-content {
+    background: rgba(10, 10, 30, 0.95);
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: white;
+    width: 90%;
+}
+
+.milestones-list {
+    margin: 20px 0;
+}
+
+.milestone-item {
+    padding: 12px;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s;
+}
+
+.milestone-item:hover {
+    background: rgba(0, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.milestone-item .year {
+    background: rgba(0, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    min-width: 70px;
+    text-align: center;
+}
+
+.milestone-item .title {
+    flex: 1;
+}
+
+.milestone-item .category {
+    background: rgba(255, 0, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.close-modal-btn {
+    background: rgba(255, 85, 85, 0.2);
+    border: 1px solid #ff5555;
+    color: #ff5555;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.close-modal-btn:hover {
+    background: rgba(255, 85, 85, 0.4);
+    box-shadow: 0 0 15px #ff5555;
+}
+
+.error-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.error-content {
+    background: rgba(20, 0, 0, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    border: 2px solid #ff5555;
+    text-align: center;
+    max-width: 500px;
+    color: #ff5555;
+    backdrop-filter: blur(10px);
+}
+
+.error-content h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #ff5555;
+    text-shadow: 0 0 10px #ff5555;
+}
+
+.retry-btn {
+    background: rgba(255, 85, 85, 0.2);
+    border: 1px solid #ff5555;
+    color: #ff5555;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.retry-btn:hover {
+    background: rgba(255, 85, 85, 0.4);
+    box-shadow: 0 0 15px #ff5555;
+}
